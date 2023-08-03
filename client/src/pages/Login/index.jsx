@@ -1,10 +1,11 @@
 import { VStack, FormControl, Input, FormLabel, Button } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react"; // Don't forget to import useEffect
 import { LoginUser } from "../../apicalls/auth";
-import { useNavigate} from 'react-router-dom'
-function Login() {
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
-  const navigate = useNavigate()
+function Login() {
+  const navigate = useNavigate();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
 
@@ -16,9 +17,20 @@ function Login() {
       password: passwordRef.current.value,
     };
 
-      const res = LoginUser(formData)
-      if(res) navigate("/") 
-  }
+    try {
+      await LoginUser(formData);
+      message.success("Login successful");
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []); // Don't forget to close the parenthesis here
 
   return (
     <div className="flex justify-center h-screen items-center bg-primary">

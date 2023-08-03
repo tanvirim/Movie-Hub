@@ -1,5 +1,5 @@
 import { VStack , FormControl ,Input ,FormLabel,Button } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 // import {message} from 'antd'
 import { RegisterUser } from "../../apicalls/auth";
 import { useNavigate} from 'react-router-dom'
@@ -31,6 +31,12 @@ const  Register = ()=> {
   
 
 }; 
+
+useEffect(() => {
+  if (localStorage.getItem("token")) {
+    navigate("/");
+  }
+}, []);
   return (
     <div className="flex justify-center h-screen items-center bg-primary">
       
