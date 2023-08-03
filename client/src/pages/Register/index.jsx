@@ -1,16 +1,20 @@
 import { VStack , FormControl ,Input ,FormLabel,Button } from "@chakra-ui/react";
 import React from "react";
+// import {message} from 'antd'
 import { RegisterUser } from "../../apicalls/auth";
+import { useNavigate} from 'react-router-dom'
 
 
-
-function Register() {
+const  Register = ()=> {
+  const navigate = useNavigate()
 
   const nameRef = React.useRef();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
 
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = {
@@ -19,7 +23,12 @@ function Register() {
       password: passwordRef.current.value,
     };
 
-    RegisterUser(formData)
+
+    const res = RegisterUser(formData)
+    if(res) navigate('/login')
+    
+  
+  
 
 }; 
   return (

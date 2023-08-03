@@ -1,14 +1,16 @@
 import {axiosInstance} from './index'
 import {message} from 'antd'
-// Register a new user
+
+
+
+
 export const RegisterUser = async (payload) => {
     try {
-        const response = await axiosInstance.post("/auth/register", payload);
-        if(response) message.success("User Created Successfully")
-        return response.data;
+        const {data}= await axiosInstance.post("/auth/register", payload);
+        if(data) message.success(data.message)
     } catch (error) {
-        if(error) message.error("User exist")
-        return error.response;
+        message.error("user exists")
+        
     }
 };
 
@@ -16,18 +18,22 @@ export const RegisterUser = async (payload) => {
 export const LoginUser = async (payload) => {
     try {
         const response = await axiosInstance.post("/auth/login", payload);
-        return response.data; 
+        if(response.status === 200) {
+            message.success(response.data.message)
+            localStorage.setItem('token', response.data.token) 
+        }
+
     } catch (error) {
-        return error.response;
+        console.log(error)
     }
 }
 
-// // Get current user
-// export const GetCurrentUser = async () => {
-//     try {
-//         const response = await axiosInstance.get("/api/users/get-current-user");
-//         return response.data;
-//     } catch (error) {
-//         return error;
-//     }
-// }
+// Get current user
+export const GetCurrentUser = async () => {
+    try { 
+        const response = await axiosInstance.get("/users");
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}

@@ -1,40 +1,42 @@
-
-import { Form} from "antd";
-import Button from "../../components/Button";
-import { Link } from "react-router-dom";
-
-
+import { VStack, FormControl, Input, FormLabel, Button } from "@chakra-ui/react";
+import React from "react";
+import { LoginUser } from "../../apicalls/auth";
+import { useNavigate} from 'react-router-dom'
 function Login() {
+
+  const navigate = useNavigate()
+  const emailRef = React.useRef();
+  const passwordRef = React.useRef();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+      const res = LoginUser(formData)
+      if(res) navigate("/") 
+  }
 
   return (
     <div className="flex justify-center h-screen items-center bg-primary">
-      <div className="card p-3 w-400">
-        <h1 className="text-xl mb-1">Cine World Login</h1>
-        <hr />
-        <Form layout="vertical" className="mt-1" >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please provide your email!" }]}
-          >
-            <input type="email" />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please provide your password!" }]}
-          >
-            <input type="password" />
-          </Form.Item>
-
-          <div className="flex flex-col mt-2 gap-1">
-            <Button fullWidth title="Login" type="submit" />
-            <Link to="/register" className="text-primary">
-            
-            </Link>
-          </div>
-        </Form>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <VStack spacing={4}>
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" ref={emailRef} />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" ref={passwordRef} />
+          </FormControl>
+          <Button type="submit" colorScheme="blue">
+            Login
+          </Button>
+        </VStack>
+      </form>
     </div>
   );
 }

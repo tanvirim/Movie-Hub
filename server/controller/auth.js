@@ -9,8 +9,6 @@ const registerController = async (req, res, next) => {
     return res.status(400).json({ message: "Invalid user provided data" });
   }
 
-
-
   try {
     const user = await registerService({ name, email, password });
     return res.status(201).json({ message: "User created successfully" });
