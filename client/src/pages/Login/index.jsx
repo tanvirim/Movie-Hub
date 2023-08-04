@@ -1,12 +1,13 @@
 import { VStack, FormControl, Input, FormLabel, Button } from "@chakra-ui/react";
-import React, { useEffect } from "react"; // Don't forget to import useEffect
-import { LoginUser } from "../../apicalls/auth";
+import React from "react"; // Don't forget to import useEffect
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ShowLoading , HideLoading } from "../../redux/loadersSlice";
+import { ShowLoading, HideLoading } from "../../redux/loadersSlice";
+import { axiosInstance } from "../../apicalls";
+import { message } from "antd";
 
 function Login() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
@@ -19,16 +20,25 @@ function Login() {
       password: passwordRef.current.value,
     };
 
-    dispatch(ShowLoading())
-      await LoginUser(formData);
-    dispatch(HideLoading())
-  }
-   
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
+    try {
+      dispatch(ShowLoading());
+      const response = await axiosInstance.post("/auth/login", formData);
+      dispatch(HideLoading());
+
+      if (response) {
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("localstorage =" ,localStorage.getItem("token"))
+      dispatch(HideLoading());
+      if (error.code === "ERR_BAD_RESPONSE") {
+        message.error("incorrect password");
+      }
+
+      
     }
-  }, []); // Don't forget to close the parenthesis here
+  };
 
   return (
     <div className="flex justify-center h-screen items-center bg-primary">

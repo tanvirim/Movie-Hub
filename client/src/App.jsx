@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import {  useSelector } from "react-redux";
+import NavBar from "./components/navbar";
 
 function App() {
 
@@ -23,12 +24,14 @@ function App() {
 
 
 <BrowserRouter>
+
+<NavBar/>
       <Routes>
         <Route path="/" element={<ProtectedRoute> <Home/></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-    </BrowserRouter>
+</BrowserRouter>
 
   </>
   );

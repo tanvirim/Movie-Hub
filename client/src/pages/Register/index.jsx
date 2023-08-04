@@ -5,11 +5,13 @@ import {
   FormLabel,
   Button,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { RegisterUser } from "../../apicalls/auth";
+
 import { useNavigate } from "react-router-dom";
 import { ShowLoading ,HideLoading} from "../../redux/loadersSlice";
+import { axiosInstance } from "../../apicalls";
+import { message } from "antd";
 
 
 const Register = () => {
@@ -28,16 +30,22 @@ const Register = () => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(ShowLoading())
-    await RegisterUser(formData);
-    dispatch(HideLoading())
+    try {
+      dispatch(ShowLoading())
+      const { data } = await axiosInstance.post("/auth/register", formData);
+      dispatch(HideLoading())
+      if (data) {
+        message.success(data.message);
+        navigate("/login"); // Navigate to the login page
+      }
+    } catch (error) {
+      dispatch(HideLoading())
+      message.error("user exists");
+    }
+
+  
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, []);
   return (
     <div className="flex justify-center h-screen items-center bg-primary">
       <form onSubmit={handleSubmit}>
