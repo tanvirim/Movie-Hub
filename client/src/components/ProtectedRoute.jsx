@@ -1,28 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GetCurrentUser } from "../apicalls/auth";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { SetUser } from "../redux/usersSlice";
+import { HideLoading, ShowLoading } from "../redux/loadersSlice";
 
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
-  const [data, setData] = useState(null);
+
+
+  const {user} = useSelector(state=> state.users)
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
+
   const getCurrentUser = async () => {
+
     try {
+
+      dispatch(ShowLoading())
       const res = await GetCurrentUser();
-      if (res.success) {
-        setData(res);
-      } else {
-        setData(null);
-        message.error(res.message);
-      }
+      dispatch(SetUser(res));
     } catch (error) {
-      setData(null);
+      dispatch(SetUser(null));
       message.error(error.message);
-      console.log(error);
+      navigate("/login");
     }
+    dispatch(HideLoading())
   };
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,7 +41,8 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [navigate]);
 
-  return data ? <div>{children}</div> : null;
+  
+  return user ? <div>{children}</div> : null;
 };
 
 export default ProtectedRoute;

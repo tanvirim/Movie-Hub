@@ -11,7 +11,9 @@ const registerController = async (req, res, next) => {
 
   try {
     const user = await registerService({ name, email, password });
-    return res.status(201).json({ message: "User created successfully" });
+    return res.status(201).json({ 
+      success: true ,
+      message: "User created successfully" });
    
   } catch (error) {
     next(error);
@@ -31,7 +33,7 @@ const loginController = async (req, res, next) => {
   try {
     const token = await loginService({ email, password });
 
-    res.status(200).json({ message: "login successful", token });
+    res.status(200).json({success: true , message: "login successful", token });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });

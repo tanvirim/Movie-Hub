@@ -1,10 +1,12 @@
 import { VStack, FormControl, Input, FormLabel, Button } from "@chakra-ui/react";
 import React, { useEffect } from "react"; // Don't forget to import useEffect
 import { LoginUser } from "../../apicalls/auth";
-import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { ShowLoading , HideLoading } from "../../redux/loadersSlice";
 
 function Login() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
@@ -17,15 +19,11 @@ function Login() {
       password: passwordRef.current.value,
     };
 
-    try {
+    dispatch(ShowLoading())
       await LoginUser(formData);
-      message.success("Login successful");
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+    dispatch(HideLoading())
+  }
+   
   useEffect(() => {
     if (localStorage.getItem("token")) {
       navigate("/");
