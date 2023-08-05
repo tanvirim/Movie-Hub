@@ -5,22 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice";
 import { HideLoading, ShowLoading } from "../redux/loadersSlice";
+import { Box } from "@chakra-ui/react";
 
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
-
-
-  const {user} = useSelector(state=> state.users)
+  const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-
   const getCurrentUser = async () => {
-
     try {
-
-      dispatch(ShowLoading())
+      dispatch(ShowLoading());
       const res = await GetCurrentUser();
       dispatch(SetUser(res));
     } catch (error) {
@@ -28,9 +24,8 @@ const ProtectedRoute = ({ children }) => {
       message.error(error.message);
       navigate("/login");
     }
-    dispatch(HideLoading())
+    dispatch(HideLoading());
   };
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,8 +36,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [localStorage]);
 
-  
-  return user ? <div>{children}</div> : null;
+  return user ? <Box padding="1.5rem">{children}</Box> : null;
 };
 
 export default ProtectedRoute;

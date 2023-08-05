@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useSelector } from "react-redux";
 import NavBar from "./components/navbar";
+import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -22,11 +24,13 @@ function App() {
       }
 
       <BrowserRouter>
-        <NavBar /> {/* NavBar is outside Routes */}
+        <NavBar />
         <Routes>
           <Route path="/" element={<ProtectedRoute> <Home/></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<ProtectedRoute> <Profile/></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute> <Admin/></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </>
