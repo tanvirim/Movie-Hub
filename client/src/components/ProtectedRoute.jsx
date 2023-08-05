@@ -39,7 +39,7 @@ const ProtectedRoute = ({ children }) => {
     } else {
       navigate("/login");
     }
-  }, [navigate]);
+  }, []);
 
   
   return user ? <div>{children}</div> : null;

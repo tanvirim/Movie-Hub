@@ -1,14 +1,15 @@
 import { VStack, FormControl, Input, FormLabel, Button } from "@chakra-ui/react";
 import React from "react"; // Don't forget to import useEffect
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { ShowLoading, HideLoading } from "../../redux/loadersSlice";
 import { axiosInstance } from "../../apicalls";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
 
@@ -25,10 +26,12 @@ function Login() {
       const response = await axiosInstance.post("/auth/login", formData);
       dispatch(HideLoading());
 
-      if (response) {
+      if (response.data) {
         localStorage.setItem("token", response.data.token);
-        navigate("/");
+        // window.location.href = "/"
+        navigate("/")
       }
+
     } catch (error) {
       console.log("localstorage =" ,localStorage.getItem("token"))
       dispatch(HideLoading());

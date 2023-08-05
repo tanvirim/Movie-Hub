@@ -4,7 +4,7 @@ import {axiosInstance} from './index'
 export const GetCurrentUser = async () => {
   try {
     const response = await axiosInstance.get("/current-user");
-    if (response.data.success) {
+    if (response.data) {
       return response.data;
     } else {
       throw new Error(response.data.message);

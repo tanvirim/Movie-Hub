@@ -2,7 +2,7 @@ const User = require('../models/user')
 const currentUserController = async (req , res , next) => {
 try {
   const user = await User.findById(req.user._id).select("-password")
-  res.send({
+  res.status(200).send({
     success: true,
     message: "current user fetched successfully",
     data: user ,

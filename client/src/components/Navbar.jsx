@@ -3,17 +3,31 @@ import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
 import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice";
+import { useNavigate } from "react-router-dom";
+
 // import { SetUser } from "../redux/usersSlice";
 
 const NavBar = () => {
+    const navigate  = useNavigate()
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.users);
     const { colorMode, toggleColorMode } = useColorMode();
   
-    const handleDelete = () => {
+    const handleLogout = () => {
+        navigate("/login")
       localStorage.removeItem("token");
       dispatch(SetUser(null));
     };
+
+    const handleUser = ()=>{
+        
+        if(user.data.isAdmin){
+            navigate("/admin")
+        }else{
+            navigate("/profile")
+
+        }}
+    
   
     return (
       <Flex
@@ -22,7 +36,7 @@ const NavBar = () => {
         justify="space-between"
         wrap="wrap"
         padding="1.5rem"
-        color="white"
+
       >
         <Text fontSize="xl" fontWeight="bold">
           CineWorld
@@ -34,12 +48,17 @@ const NavBar = () => {
             variant="ghost"
             mr={2}
           />
-          <Text>{user && user.data.name}</Text>
+          <Text 
+          cursor='pointer'
+          onClick={handleUser
+          }
+          >
+            {user && user.data.name}</Text>
           <IconButton
             icon={<AiOutlineLogout />}
             aria-label="Logout"
             variant="ghost"
-            onClick={handleDelete} // Call the handleDelete function when logout button is clicked
+            onClick={handleLogout} // Call the handleDelete function when logout button is clicked
             ml={2}
           />
           <IconButton
@@ -52,6 +71,7 @@ const NavBar = () => {
         </HStack>
       </Flex>
     );
-  };
+        }
+  
   
 export default NavBar;
