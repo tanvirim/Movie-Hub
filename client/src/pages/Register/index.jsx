@@ -4,11 +4,12 @@ import {
   Input,
   FormLabel,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShowLoading ,HideLoading} from "../../redux/loadersSlice";
 import { axiosInstance } from "../../apicalls";
 import { message } from "antd";
@@ -62,6 +63,12 @@ const Register = () => {
             <FormLabel>Password</FormLabel>
             <Input type="password" ref={passwordRef} />
           </FormControl>
+          <Text>
+        Already a User ?{" "}
+        <Link  to="/login">
+          Login Here
+        </Link>
+        </Text>
           <Button type="submit" colorScheme="blue">
             Register
           </Button>

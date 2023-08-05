@@ -1,11 +1,15 @@
+import { Flex, Text } from "@chakra-ui/react";
 
 
 function Home() {
 
   return (
-    <div>
- Home
-    </div>
+
+    <Flex padding="1.5rem">
+<Text>
+  Home
+</Text>
+    </Flex>
   );
 }
 

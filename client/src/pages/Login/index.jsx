@@ -1,15 +1,16 @@
-import { VStack, FormControl, Input, FormLabel, Button } from "@chakra-ui/react";
+import { VStack, FormControl, Input, FormLabel, Button,Text } from "@chakra-ui/react";
 import React from "react"; // Don't forget to import useEffect
 
 import { useDispatch } from "react-redux";
 import { ShowLoading, HideLoading } from "../../redux/loadersSlice";
 import { axiosInstance } from "../../apicalls";
 import { message } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
+
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
 
@@ -28,12 +29,11 @@ function Login() {
 
       if (response.data) {
         localStorage.setItem("token", response.data.token);
-        // window.location.href = "/"
         navigate("/")
       }
 
     } catch (error) {
-      console.log("localstorage =" ,localStorage.getItem("token"))
+  
       dispatch(HideLoading());
       if (error.code === "ERR_BAD_RESPONSE") {
         message.error("incorrect password");
@@ -55,6 +55,12 @@ function Login() {
             <FormLabel>Password</FormLabel>
             <Input type="password" ref={passwordRef} />
           </FormControl>
+          <Text>
+        Not a User ?{" "}
+        <Link  to="/register">
+          Register Here
+        </Link>
+      </Text>
           <Button type="submit" colorScheme="blue">
             Login
           </Button>

@@ -3,7 +3,7 @@ import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
 import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import { SetUser } from "../redux/usersSlice";
 
@@ -39,7 +39,7 @@ const NavBar = () => {
 
       >
         <Text fontSize="xl" fontWeight="bold">
-          CineWorld
+          <Link to="/">CineWorld</Link>
         </Text>
         <HStack>
           <IconButton
@@ -54,13 +54,13 @@ const NavBar = () => {
           }
           >
             {user && user.data.name}</Text>
-          <IconButton
+{user &&           <IconButton
             icon={<AiOutlineLogout />}
             aria-label="Logout"
             variant="ghost"
             onClick={handleLogout} // Call the handleDelete function when logout button is clicked
             ml={2}
-          />
+          />}
           <IconButton
             icon={colorMode === "light" ? <BsFillMoonFill /> : <BsFillSunFill />}
             aria-label="Toggle Dark Mode"
