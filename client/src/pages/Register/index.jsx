@@ -37,7 +37,7 @@ const Register = () => {
       dispatch(HideLoading())
       if (data) {
         message.success(data.message);
-        navigate("/login"); // Navigate to the login page
+        navigate("/login"); 
       }
     } catch (error) {
       dispatch(HideLoading())

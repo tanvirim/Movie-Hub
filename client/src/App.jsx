@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import './stylesheets/alignments.css'
 import './stylesheets/custom.css'
 import './stylesheets/form-elements.css'
@@ -8,9 +8,10 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useSelector } from "react-redux";
-import NavBar from "./components/navbar";
+
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import NavBar from "./components/NavBar";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -23,16 +24,14 @@ function App() {
         </div>
       }
 
-      <BrowserRouter>
-        <NavBar />
+        <NavBar/>
         <Routes>
           <Route path="/" element={<ProtectedRoute> <Home/></ProtectedRoute>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<ProtectedRoute> <Profile/></ProtectedRoute>} />
-          <Route path="/admin" element={<ProtectedRoute> <Admin/></ProtectedRoute>} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<ProtectedRoute> <Profile/></ProtectedRoute>} />
+          <Route path="admin" element={<ProtectedRoute> <Admin/></ProtectedRoute>} />
         </Routes>
-      </BrowserRouter>
     </>
   );
 }

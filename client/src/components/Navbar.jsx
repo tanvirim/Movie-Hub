@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser } from "../redux/usersSlice";
 import { Link, useNavigate } from "react-router-dom";
 
-// import { SetUser } from "../redux/usersSlice";
+
 
 const NavBar = () => {
     const navigate  = useNavigate()
@@ -53,12 +53,13 @@ const NavBar = () => {
           onClick={handleUser
           }
           >
+            {console.log("user", user)}
             {user && user.data.name}</Text>
-{user &&           <IconButton
+              {user &&  <IconButton
             icon={<AiOutlineLogout />}
             aria-label="Logout"
             variant="ghost"
-            onClick={handleLogout} // Call the handleDelete function when logout button is clicked
+            onClick={handleLogout} 
             ml={2}
           />}
           <IconButton
@@ -69,7 +70,10 @@ const NavBar = () => {
             ml={2}
           />
         </HStack>
+        
+        
       </Flex>
+      
     );
         }
   
