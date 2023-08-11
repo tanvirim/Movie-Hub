@@ -8,29 +8,25 @@ import {
   IconButton,
   Icon,
   Box,
- 
 } from "@chakra-ui/react";
 
 import { FaEdit, FaTrash } from "react-icons/fa";
 import MovieForm from "./MovieForm";
 import { useState } from "react";
+import { GetAllMovies } from "../../apicalls/movies";
+import { useDispatch, useSelector } from "react-redux";
+import { addMovie } from "../../redux/movieSlice";
 
-
-const data = [
-  {
-    id: 1,
-    title: "Movie 1",
-    description: "This is Movie 1",
-    duration: "2h 30m",
-    language: "English",
-    genre: "Action",
-    releaseDate: "2022-01-01",
-  }
- 
-];
+import moment from "moment";
 
 const MoviesList = () => {
- const [formType , setFormType] = useState('add')
+  const dispatch = useDispatch();
+
+  GetAllMovies().then(({ data }) => dispatch(addMovie(data)));
+
+  const { movies } = useSelector((state) => state.movies);
+
+  const [formType, setFormType] = useState("add");
 
   return (
     <Box>
@@ -48,27 +44,25 @@ const MoviesList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((movie) => (
+          {movies.map((movie) => (
             <Tr key={movie.id}>
               <Td>{movie.title}</Td>
               <Td>{movie.description}</Td>
               <Td>{movie.duration}</Td>
               <Td>{movie.language}</Td>
               <Td>{movie.genre}</Td>
-              <Td>{movie.releaseDate}</Td>
+              <Td>{moment(movie.releaseDate).format("MMMM Do, YYYY")}</Td>
               <Td>
                 <IconButton
                   aria-label="Edit"
                   icon={<Icon as={FaEdit} />}
                   size="sm"
                   mr={2}
-                  
                 />
                 <IconButton
                   aria-label="Delete"
                   icon={<Icon as={FaTrash} />}
                   size="sm"
-                  
                 />
               </Td>
             </Tr>

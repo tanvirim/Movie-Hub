@@ -14,7 +14,7 @@ export const AddMovie = async (payload) => {
 // get all movies
 export const GetAllMovies = async () => {
     try { 
-        const response = await axiosInstance.get("/api/movies/get-all-movies");
+        const response = await axiosInstance.get("/movies/all-movies");
         return response.data;
     } catch (error) {
         return error.response;

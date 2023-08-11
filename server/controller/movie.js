@@ -1,6 +1,6 @@
 const Movie = require("../models/movieModel")
 
- const movieController = async (req ,res) => {
+ const addmovieController = async (req ,res) => {
     try {
         const newMovie =  new Movie(req.body)
         await newMovie.save()
@@ -19,4 +19,27 @@ const Movie = require("../models/movieModel")
 
 }
 
-module.exports = movieController
+
+
+const allMoviesController = async(req,res)=> {
+    try {
+        const allMovies = await Movie.find()
+
+        res.send({
+            success: true,
+            message: "successfully found all movies",
+            data: allMovies ,
+        })
+    } catch (error) {
+        
+        res.send({
+            success: false,
+            message: "failed to get all movies",
+            
+        })
+        
+    }
+
+}
+
+module.exports = {addmovieController, allMoviesController}
