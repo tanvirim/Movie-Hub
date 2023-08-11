@@ -1,6 +1,7 @@
-const { axiosInstance } = require(".");
+import { axiosInstance } from ".";
 
-// Add a new movie
+
+// Add a new movie 
 export const AddMovie = async (payload) => {
     try {
         const response = await axiosInstance.post("/api/movies/add-movie", payload);
@@ -12,7 +13,7 @@ export const AddMovie = async (payload) => {
 
 // get all movies
 export const GetAllMovies = async () => {
-    try {
+    try { 
         const response = await axiosInstance.get("/api/movies/get-all-movies");
         return response.data;
     } catch (error) {

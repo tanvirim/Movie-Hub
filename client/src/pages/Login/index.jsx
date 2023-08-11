@@ -5,10 +5,13 @@ import { useDispatch } from "react-redux";
 import { ShowLoading, HideLoading } from "../../redux/loadersSlice";
 import { axiosInstance } from "../../apicalls";
 import { message } from "antd";
-import { useNavigate , Link} from "react-router-dom";
+import {  Link} from "react-router-dom";
+
 
 function Login() {
-  const navigate = useNavigate()
+  
+
+  
   const dispatch = useDispatch();
 
   const emailRef = React.useRef();
@@ -29,7 +32,7 @@ function Login() {
 
       if (response.data) {
         localStorage.setItem("token", response.data.token);
-        navigate("/")
+        window.location.href="/"
       }
 
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import './stylesheets/alignments.css'
 import './stylesheets/custom.css'
 import './stylesheets/form-elements.css'
@@ -15,10 +15,15 @@ import NavBar from "./components/NavBar";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
+  const { user } = useSelector((state) => state.users);
+  
+
 
   return (
     <>
+      
       {loading && 
+
         <div className="loader-parent"> 
           <div className="loader"></div>
         </div>
@@ -27,8 +32,8 @@ function App() {
         <NavBar/>
         <Routes>
           <Route path="/" element={<ProtectedRoute> <Home/></ProtectedRoute>} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="login" element={user ? <Navigate to="/" /> : <Login />} />
+          <Route path="register" element={user ? <Navigate to="/" /> : <Register />} />
           <Route path="profile" element={<ProtectedRoute> <Profile/></ProtectedRoute>} />
           <Route path="admin" element={<ProtectedRoute> <Admin/></ProtectedRoute>} />
         </Routes>

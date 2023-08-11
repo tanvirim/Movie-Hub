@@ -14,9 +14,9 @@ const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
   
     const handleLogout = () => {
-        navigate("/login")
       localStorage.removeItem("token");
       dispatch(SetUser(null));
+      navigate("/login");
     };
 
     const handleUser = ()=>{
@@ -53,7 +53,7 @@ const NavBar = () => {
           onClick={handleUser
           }
           >
-            {console.log("user", user)}
+
             {user && user.data.name}</Text>
               {user &&  <IconButton
             icon={<AiOutlineLogout />}
